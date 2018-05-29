@@ -2,18 +2,18 @@ package main;
 
 import (
 	"net/http"
+	"fmt"
 )
 
 func main(){
-	arr := [100][100]int{}
-
+	picture := [100][100]int{}
+	print("Server Start\n")
+	fmt.Println(picture)
+	
 	http.HandleFunc("/hello", func(w http.ResponseWriter, req *http.Request) {
         w.Write([]byte("Hello World"))
     })
 	http.ListenAndServe(":5000", nil)
 	
-	arr[1][2]=3
-	
-	print("Server Start")
-	
+	print("Server End\n")
 }
