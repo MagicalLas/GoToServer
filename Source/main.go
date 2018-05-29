@@ -12,7 +12,7 @@ func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 }
 
 func Hello(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-    fmt.Fprintf(w, "%v", ps.ByName("name"))
+    fmt.Fprintf(w, "%v", arr)
 }
 func Server(){
     router := httprouter.New()
@@ -31,3 +31,4 @@ func main() {
 		}
 	}
 }
+var arr int = 12
