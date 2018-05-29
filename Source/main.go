@@ -22,8 +22,12 @@ func Server(){
 }
 func main() {
 	go Server()
-	fmt.Print("Enter text: ")
     var input string
-    fmt.Scanln(&input)
-    fmt.Print(input)
+	for {
+		fmt.Print("> ")
+		fmt.Scanln(&input)
+		if input == "end"{
+			break
+		}
+	}
 }
