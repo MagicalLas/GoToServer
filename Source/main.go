@@ -11,13 +11,17 @@ func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
     fmt.Fprint(w, "<h1>Las World!</h1>\n")
 }
 
-func Hello(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+func State(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
     fmt.Fprintf(w, "%v", arr)
+}
+func Change(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+    print(ps.ByName(""))
 }
 func Server(){
     router := httprouter.New()
     router.GET("/", Index)
-    router.GET("/hello/:name", Hello)
+    router.GET("/state", State)
+    router.GET("/change", Change)
     log.Fatal(http.ListenAndServe(":8080", router))
 }
 func main() {
@@ -31,4 +35,4 @@ func main() {
 		}
 	}
 }
-var arr int = 12
+var arr = [100][100]int{}
