@@ -8,11 +8,11 @@ import (
 )
 
 func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-    fmt.Fprint(w, "Welcome!\n")
+    fmt.Fprint(w, "<h1>Las World!</h1>\n")
 }
 
 func Hello(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-    fmt.Fprintf(w, "hello, %s!\n", ps.ByName("name"))
+    fmt.Fprintf(w, "%v", ps.ByName("name"))
 }
 func Server(){
     router := httprouter.New()
