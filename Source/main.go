@@ -1,19 +1,29 @@
 package main;
 
 import (
-	"net/http"
-	"fmt"
+    "fmt"
+    "github.com/julienschmidt/httprouter"
+    "net/http"
+    "log"
 )
 
-func main(){
-	picture := [100][100]int{}
-	print("Server Start\n")
-	fmt.Println(picture)
-	
-	http.HandleFunc("/hello", func(w http.ResponseWriter, req *http.Request) {
-        w.Write([]byte("Hello World"))
-    })
-	http.ListenAndServe(":5000", nil)
-	
-	print("Server End\n")
+func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+    fmt.Fprint(w, "Welcome!\n")
+}
+
+func Hello(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+    fmt.Fprintf(w, "hello, %s!\n", ps.ByName("name"))
+}
+func Server(){
+    router := httprouter.New()
+    router.GET("/", Index)
+    router.GET("/hello/:name", Hello)
+    log.Fatal(http.ListenAndServe(":8080", router))
+}
+func main() {
+	go Server()
+	fmt.Print("Enter text: ")
+    var input string
+    fmt.Scanln(&input)
+    fmt.Print(input)
 }
