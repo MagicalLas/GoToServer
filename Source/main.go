@@ -15,13 +15,14 @@ func State(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
     fmt.Fprintf(w, "%v", arr)
 }
 func Change(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-    print(ps.ByName(""))
+    prameter := ps.ByName("x")
+    _ = prameter
 }
 func Server(){
     router := httprouter.New()
-    router.GET("/", Index)
+    go router.GET("/", Index)
     router.GET("/state", State)
-    router.GET("/change", Change)
+    go router.GET("/change:x", Change)
     log.Fatal(http.ListenAndServe(":8080", router))
 }
 func main() {
