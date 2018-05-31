@@ -11,7 +11,6 @@ import (
 func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
     fmt.Fprint(w, "<h1>Las World!</h1>\n")
 }
-
 func Server(){
     router := httprouter.New()
     router.GET("/", Index)
@@ -33,6 +32,7 @@ func Method(command string, s chan int){
     }
     if command == "start"{
         fmt.Println("Server Start")
+        go Server()
     }
 }
 func CLI_io(state chan int){
