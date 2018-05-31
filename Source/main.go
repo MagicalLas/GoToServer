@@ -7,24 +7,27 @@ import (
     "log"
 //    "syscall"
     "time"
+    "strconv"
 )
 func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
     fmt.Fprint(w, "<h1>Las World!</h1>\n")
 }
 func Server(){
-    var arr = [5][5]int{}
+    var arr = [13][13]int{}
 
     router := httprouter.New()
     router.GET("/", Index)
-    router.GET("/A",func (w http.ResponseWriter, r *http.Request, ps httprouter.Params){
-        I := ps.ByName("name")
-        X := I[0:2]
-        Y := I[2:4]
-        arr[X][Y]=85
-    })
-    router.GET("/A/:X",func (w http.ResponseWriter, r *http.Request, _ httprouter.Params){
+    router.GET("/A",func (w http.ResponseWriter, r *http.Request, _ httprouter.Params){
         fmt.Fprint(w, "<h1>Las World!</h1>\n")
         fmt.Fprint(w, "",arr)
+    })
+    router.GET("/A/:X",func (w http.ResponseWriter, r *http.Request, ps httprouter.Params){
+        I := ps.ByName("X")
+        X, _ := strconv.Atoi(I[0:2])
+        Y, _ := strconv.Atoi(I[2:4])
+        V, _ := strconv.Atoi(I[4:])
+        arr[X][Y]=V
+        fmt.Fprint(w, "X :", X, "\nY :", Y, "\nV :", V)
     })
     log.Fatal(http.ListenAndServe(":8080", router))
 }
@@ -43,9 +46,26 @@ func Method(command string, s chan int){
         fmt.Println("Server Start")
         go Server()
     } else {
-        fmt.Println("wrong command")
-        fmt.Println("help command will help you")
+        fmt.Println("-->wrong command")
+        fmt.Println("-->help command will help you")
     }
+}
+func help(){
+    fmt.Println("This Program is Wonho's Server Controller")
+    fmt.Println("Used Golang, Source is https://github.com/Las-Wonho/GoToServer")
+    fmt.Println("Server Port was 8080")
+    fmt.Println("Command list")
+    fmt.Println("    ->help")
+    
+    fmt.Println("    ->state")
+    
+    fmt.Println("    ->start")
+    
+    fmt.Println("    ->version or ver")
+    
+    fmt.Println("    ->end")
+    
+    fmt.Println("    ->port")
 }
 func CLI_io(state chan int){
     var command string
