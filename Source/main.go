@@ -40,10 +40,9 @@ func CLI_io(s chan int){
 func main() {
 
     Start()
-    s := make(chan int,1)
-    s<-3
+    s := make(chan int,0)
     go CLI_io(s)
-    for <-s == 3{
+    for <-s != 0{
     }
     fmt.Println("Sysyem End")
 }
