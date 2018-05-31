@@ -6,7 +6,10 @@ import (
     "net/http"
     "log"
 )
-
+type readOp struct {
+	key  int
+	resp chan int
+}
 func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
     fmt.Fprint(w, "<h1>Las World!</h1>\n")
 }
@@ -37,3 +40,4 @@ func main() {
 	}
 }
 var arr = [100][100]int{}
+var r_c = make(chan *[100][100]int)
