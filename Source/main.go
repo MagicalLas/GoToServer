@@ -12,8 +12,17 @@ func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
     fmt.Fprint(w, "<h1>Las World!</h1>\n")
 }
 func Server(){
+    var arr = [5][5]int{}
+
     router := httprouter.New()
     router.GET("/", Index)
+    router.GET("/A",func (w http.ResponseWriter, r *http.Request, _ httprouter.Params){
+        arr[1][1]=85
+    })
+    router.GET("/A/:X",func (w http.ResponseWriter, r *http.Request, _ httprouter.Params){
+        fmt.Fprint(w, "<h1>Las World!</h1>\n")
+        fmt.Fprint(w, "",arr)
+    })
     log.Fatal(http.ListenAndServe(":8080", router))
 }
 func Start(){
@@ -23,16 +32,16 @@ func Start(){
 func Method(command string, s chan int){
     if command == "end"{
         s<-0
-    }
-    if command == "state"{
+    }else if command == "state"{
         fmt.Println("State Ok....")
-    }
-    if command == "version" || command == "ver"{
+    }else if command == "version" || command == "ver"{
         fmt.Println("Server Version is 0.3\r\nAuther is Wonho Ha")
-    }
-    if command == "start"{
+    }else if command == "start"{
         fmt.Println("Server Start")
         go Server()
+    } else {
+        fmt.Println("wrong command")
+        fmt.Println("help command will help you")
     }
 }
 func CLI_io(state chan int){
