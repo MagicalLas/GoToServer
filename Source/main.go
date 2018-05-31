@@ -9,11 +9,15 @@ import (
     "time"
     "strconv"
 )
+var port_r = make(chan int)
 func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
     fmt.Fprint(w, "<h1>Las World!</h1>\n")
 }
 func Server(){
     var arr = [13][13]int{}
+    if(<-port_r == -1){
+        port_r<-8080
+    }
 
     router := httprouter.New()
     router.GET("/", Index)
@@ -29,14 +33,15 @@ func Server(){
         arr[X][Y]=V
         fmt.Fprint(w, "X :", X, "\nY :", Y, "\nV :", V)
     })
-    log.Fatal(http.ListenAndServe(":8080", router))
+    fmt.Println("port is",<-port_r)
+    log.Fatal(http.ListenAndServe(":"+strconv.Itoa(<-port_r), router))
 }
 func Start(){
     fmt.Println("Start Successfully")
     fmt.Println("Las Server Controller Start~!")
 }
 func Method(command string, s chan int){
-    if command == "end"{
+    if command == "end"{    
         s<-0
     }else if command == "state"{
         fmt.Println("State Ok....")
@@ -45,7 +50,11 @@ func Method(command string, s chan int){
     }else if command == "start"{
         fmt.Println("Server Start")
         go Server()
-    } else {
+    }else if command == "help"{
+        help()
+    }else if command[:4] == "port"{
+        port_r<-2
+    }else {
         fmt.Println("-->wrong command")
         fmt.Println("-->help command will help you")
     }
@@ -75,8 +84,11 @@ func CLI_io(state chan int){
         Method(command, state)
     }
 }
+func Init(){
+}
 func main() {
 
+    go Init()
     Start()
     state := make(chan int,0)
 
