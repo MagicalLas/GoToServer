@@ -13,7 +13,7 @@ func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
     fmt.Fprint(w, "<h1>Las World!</h1>\n")
 }
 func Server(){
-    var arr = [13][13]int{}
+    var arr = [30][30]int{}
     router := httprouter.New()
     router.GET("/", Index)
     router.GET("/A",func (w http.ResponseWriter, r *http.Request, _ httprouter.Params){
@@ -48,15 +48,16 @@ func Method(command string, s chan int){
     }else if command == "help"{
         help()
     }else {
-        fmt.Println("-->wrong command")
-        fmt.Println("-->help command will help you")
+        fmt.Println("->wrong command")
+        fmt.Println("->help command will help you")
     }
 }
 func help(){
-    fmt.Println("This Program is Wonho's Server Controller")
-    fmt.Println("Used Golang, Source is https://github.com/Las-Wonho/GoToServer")
-    fmt.Println("Server Port was 8080")
-    fmt.Println("Command list")
+    fmt.Println("       Go To Server        ")
+    fmt.Println(">This Program is Wonho's Server Controller")
+    fmt.Println(">Used Golang, Source is https://github.com/Las-Wonho/GoToServer")
+    fmt.Println(">Server Port was 8080")
+    fmt.Println(">>Command list<<")
     fmt.Println("    ->help")
     
     fmt.Println("    ->state")
@@ -88,5 +89,5 @@ func main() {
 
     go CLI_io(state)
     wait(state)
-    fmt.Println("Sysyem End")
+    fmt.Println("System End")
 }
