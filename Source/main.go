@@ -16,8 +16,11 @@ func Server(){
 
     router := httprouter.New()
     router.GET("/", Index)
-    router.GET("/A",func (w http.ResponseWriter, r *http.Request, _ httprouter.Params){
-        arr[1][1]=85
+    router.GET("/A",func (w http.ResponseWriter, r *http.Request, ps httprouter.Params){
+        I := ps.ByName("name")
+        X := I[0:2]
+        Y := I[2:4]
+        arr[X][Y]=85
     })
     router.GET("/A/:X",func (w http.ResponseWriter, r *http.Request, _ httprouter.Params){
         fmt.Fprint(w, "<h1>Las World!</h1>\n")
