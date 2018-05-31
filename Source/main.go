@@ -6,7 +6,7 @@ import (
     "net/http"
     "log"
 //    "syscall"
-//    "time"
+    "time"
 )
 func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
     fmt.Fprint(w, "<h1>Las World!</h1>\n")
@@ -19,7 +19,7 @@ func Server(){
 }
 func Start(){
     fmt.Println("Start Successfully")
-    fmt.Println("Las Server Start~!")
+    fmt.Println("Las Server Controller Start~!")
 }
 func Method(command string, s chan int){
     if command == "end"{
@@ -28,21 +28,29 @@ func Method(command string, s chan int){
     if command == "state"{
         fmt.Println("State Ok....")
     }
+    if command == "version" || command == "ver"{
+        fmt.Println("Server Version is 0.3\r\nAuther is Wonho Ha")
+    }
+    if command == "start"{
+        fmt.Println("Server Start")
+    }
 }
-func CLI_io(s chan int){
+func CLI_io(state chan int){
     var command string
     for {
         fmt.Print(">")
         fmt.Scanln(&command)
-        Method(command, s)
+        Method(command, state)
     }
 }
 func main() {
 
     Start()
-    s := make(chan int,0)
-    go CLI_io(s)
-    for <-s != 0{
+    state := make(chan int,0)
+
+    go CLI_io(state)
+    for <-state != 0{
+        time.Sleep(time.Second)
     }
     fmt.Println("Sysyem End")
 }
