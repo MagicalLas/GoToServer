@@ -5,7 +5,6 @@ import (
     "github.com/julienschmidt/httprouter"
     "net/http"
     "log"
-//    "syscall"
     "time"
     "strconv"
 )
@@ -29,12 +28,15 @@ func Server(){
         fmt.Fprint(w, "X :", X, "\nY :", Y, "\nV :", V)
     })
     fmt.Println("port is",8080)
+    fmt.Println(">")
     log.Fatal(http.ListenAndServe(":"+strconv.Itoa(8080), router))
 }
+
 func Start(){
     fmt.Println("Start Successfully")
     fmt.Println("Las Server Controller Start~!")
 }
+
 func Method(command string, s chan int){
     if command == "end"{    
         s<-0
@@ -66,8 +68,7 @@ func help(){
     
     fmt.Println("    ->version or ver")
     
-    fmt.Println("    ->end")
-    
+    fmt.Println("    ->end")    
 }
 func CLI_io(state chan int){
     var command string
@@ -86,7 +87,6 @@ func main() {
 
     Start()
     state := make(chan int,0)
-
     go CLI_io(state)
     wait(state)
     fmt.Println("System End")
