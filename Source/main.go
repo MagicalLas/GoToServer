@@ -9,16 +9,11 @@ import (
     "time"
     "strconv"
 )
-var port_r = make(chan int)
 func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
     fmt.Fprint(w, "<h1>Las World!</h1>\n")
 }
 func Server(){
     var arr = [13][13]int{}
-    if(<-port_r == -1){
-        port_r<-8080
-    }
-
     router := httprouter.New()
     router.GET("/", Index)
     router.GET("/A",func (w http.ResponseWriter, r *http.Request, _ httprouter.Params){
@@ -33,8 +28,8 @@ func Server(){
         arr[X][Y]=V
         fmt.Fprint(w, "X :", X, "\nY :", Y, "\nV :", V)
     })
-    fmt.Println("port is",<-port_r)
-    log.Fatal(http.ListenAndServe(":"+strconv.Itoa(<-port_r), router))
+    fmt.Println("port is",8080)
+    log.Fatal(http.ListenAndServe(":"+strconv.Itoa(8080), router))
 }
 func Start(){
     fmt.Println("Start Successfully")
@@ -52,8 +47,6 @@ func Method(command string, s chan int){
         go Server()
     }else if command == "help"{
         help()
-    }else if command[:4] == "port"{
-        port_r<-2
     }else {
         fmt.Println("-->wrong command")
         fmt.Println("-->help command will help you")
@@ -74,7 +67,6 @@ func help(){
     
     fmt.Println("    ->end")
     
-    fmt.Println("    ->port")
 }
 func CLI_io(state chan int){
     var command string
@@ -84,17 +76,17 @@ func CLI_io(state chan int){
         Method(command, state)
     }
 }
-func Init(){
+func wait(state chan int){
+    for <-state != 0{
+        time.Sleep(time.Second)
+    }
 }
 func main() {
 
-    go Init()
     Start()
     state := make(chan int,0)
 
     go CLI_io(state)
-    for <-state != 0{
-        time.Sleep(time.Second)
-    }
+    wait(state)
     fmt.Println("Sysyem End")
 }
