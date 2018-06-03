@@ -8,9 +8,11 @@ import (
     "time"
     "strconv"
 )
+
 func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
     fmt.Fprint(w, "<h1>Las World!</h1>\n")
 }
+
 func Server(){
     var arr = [30][30]int{}
     router := httprouter.New()
@@ -27,8 +29,6 @@ func Server(){
         arr[X][Y]=V
         fmt.Fprint(w, "X :", X, "\nY :", Y, "\nV :", V)
     })
-    fmt.Println("port is",8080)
-    fmt.Println(">")
     log.Fatal(http.ListenAndServe(":"+strconv.Itoa(8080), router))
 }
 
@@ -43,9 +43,10 @@ func Method(command string, s chan int){
     }else if command == "state"{
         fmt.Println("State Ok....")
     }else if command == "version" || command == "ver"{
-        fmt.Println("Server Version is 0.3\r\nAuther is Wonho Ha")
+        fmt.Println("Server Version is 1.0\r\nAuther is Wonho Ha")
     }else if command == "start"{
         fmt.Println("Server Start")
+        fmt.Println("Port is 8080")
         go Server()
     }else if command == "help"{
         help()
@@ -54,6 +55,7 @@ func Method(command string, s chan int){
         fmt.Println("->help command will help you")
     }
 }
+
 func help(){
     fmt.Println("       Go To Server        ")
     fmt.Println(">This Program is Wonho's Server Controller")
@@ -70,6 +72,7 @@ func help(){
     
     fmt.Println("    ->end")    
 }
+
 func CLI_io(state chan int){
     var command string
     for {
@@ -84,7 +87,6 @@ func wait(state chan int){
     }
 }
 func main() {
-
     Start()
     state := make(chan int,0)
     go CLI_io(state)
