@@ -45,8 +45,6 @@ func Method(command string, s chan int){
     }else if command == "version" || command == "ver"{
         fmt.Println("Server Version is 1.0\r\nAuther is Wonho Ha")
     }else if command == "start"{
-        fmt.Println("Server Start")
-        fmt.Println("Port is 8080")
         go Server()
     }else if command == "help"{
         help()
